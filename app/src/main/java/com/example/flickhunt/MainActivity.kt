@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -53,7 +54,9 @@ class MainActivity : ComponentActivity() {
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        MovieTypeSwitcher()
+                        MovieTypeSwitcher(switchType = {
+                            homeViewModel.onMovieTypeSwitched(movieTypeList[it])
+                        })
                         MovieList()
                     }
                 }
@@ -62,7 +65,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun MovieTypeSwitcher() {
+    fun MovieTypeSwitcher(switchType: (movieTypePosition: Int) -> Unit) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,20 +77,23 @@ class MainActivity : ComponentActivity() {
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(movieTypeTagList.size) { position ->
-                    MovieTypePebble(movieType = movieTypeTagList[position])
+                    MovieTypePebble(movieType = movieTypeTagList[position] , switchType = {
+                        switchType(movieTypeTagList.indexOf(it))
+                    })
                 }
             }
         }
     }
 
     @Composable
-    fun MovieTypePebble(movieType: String) {
+    fun MovieTypePebble(movieType: String , switchType : (movieType : String) -> Unit) {
         Card(
             modifier = Modifier
                 .background(Color(0xFFFFFFFF))
                 .wrapContentHeight()
                 .wrapContentWidth()
-                .padding(4.dp),
+                .padding(4.dp)
+                .clickable { switchType(movieType) },
             shape = RoundedCornerShape(13.dp),
             elevation = 4.dp,
         ) {
