@@ -39,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    val movieTypeList: List<String> = listOf("", "movie", "series", "episode")
+    private val movieTypeList: List<String> = listOf("", "movie", "series", "episode")
     private val movieTypeTagList: List<String> = listOf("Home", "Movie", "Series", "Episode")
 
     override fun onCreate(savedInstanceState: Bundle?) {
