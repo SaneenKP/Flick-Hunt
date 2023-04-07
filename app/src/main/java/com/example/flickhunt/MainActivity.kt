@@ -11,10 +11,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,6 +52,7 @@ class MainActivity : ComponentActivity() {
                     Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
+                        Header(headerText = "Flick Hunt", bookMarked = false , onBookMarkIconClick = {})
                         MovieTypeSwitcher(switchType = {
                             homeViewModel.onMovieTypeSwitched(movieTypeList[it])
                         })
@@ -186,6 +185,34 @@ class MainActivity : ComponentActivity() {
                     overflow = TextOverflow.Ellipsis
                 )
             }
+        }
+    }
+    @Composable
+    private fun Header(
+        headerText: String, bookMarked: Boolean, onBookMarkIconClick: () -> Unit
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 13.dp),
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = "Flick Hunt",
+                color = Color.Black,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 24.dp)
+                    .clickable {
+                        onBookMarkIconClick()
+                    },
+                painter = painterResource(id = R.drawable.ic_bookmark),
+                contentDescription = "BookMark Icon",
+            )
         }
     }
 }
