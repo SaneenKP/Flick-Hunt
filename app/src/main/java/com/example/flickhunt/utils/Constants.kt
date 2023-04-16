@@ -79,5 +79,9 @@ class Constants {
         const val NO_RESULT_ERROR = "Sorry mate !! No Results for your search"
 
         const val NOT_AVAILABLE = "N/A"
+
+        //Screen Routes
+        const val MOVIE_SCREEN = "movie_screen"
+        const val MOVIE_DETAILS_SCREEN = "movie_details_screen"
     }
 }

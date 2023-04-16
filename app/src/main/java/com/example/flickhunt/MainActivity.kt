@@ -1,5 +1,6 @@
 package com.example.flickhunt
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -26,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.example.flickhunt.models.Movie
@@ -139,7 +143,8 @@ class MainActivity : ComponentActivity() {
             MovieView(
                 posterUrl = _movie.Poster,
                 movieName = _movie.Title,
-                movieType = _movie.Type
+                movieType = _movie.Type,
+                movieId  = _movie.imdbID
             )
         }
     }
@@ -148,19 +153,31 @@ class MainActivity : ComponentActivity() {
     fun MovieView(
         posterUrl: String?,
         movieName: String?,
-        movieType: String?
+        movieType: String?,
+        movieId : String?,
     ) {
+        val movieItemGradient = Brush.linearGradient(
+            colors = listOf(
+//                Color(0xB3333333),
+//                Color(0x00333333)
+                Color.Red,
+                Color.Blue
+            ),
+//            start = Offset.Zero,
+//            end = Offset( 0F , 144F)
+        )
         Box(
             modifier = Modifier
                 .width(116.dp)
                 .wrapContentSize()
+                .clickable { startActivity(Intent(this, MovieDetailsScreen::class.java)) }
         ) {
             Column {
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(144.dp)
-                        .clip(shape = RoundedCornerShape(16.dp)),
+                        .clip(shape = RoundedCornerShape(16.dp)).background(movieItemGradient),
                     model = posterUrl, contentDescription = movieName,
                     contentScale = ContentScale.FillBounds,
                 )
@@ -185,6 +202,13 @@ class MainActivity : ComponentActivity() {
                     overflow = TextOverflow.Ellipsis
                 )
             }
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(12.dp),
+                painter = painterResource(id = R.drawable.ic_bookmark),
+                contentDescription = "Bookmark Movie",
+            )
         }
     }
     @Composable

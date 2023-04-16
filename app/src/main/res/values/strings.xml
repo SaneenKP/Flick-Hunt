@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Flick Hunt</string>
+    <string name="title_activity_movie_details_screen">MovieDetailsScreen</string>
 </resources>
